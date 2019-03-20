@@ -148,3 +148,53 @@ commands in your \lstinline|.bashrc| login script. That way you don't have to ty
 these commands every time you want to use EasyBuild or you want to load modules generated
 with EasyBuild. See also
 \href{\LinuxManualURL#sec:bashrc-login-script}{the section on \texttt{.bashrc} in the ``Beyond the basics'' chapter of the intro to Linux}.
+
+\section{Hello Easybuild}
+
+Suppose we have the following hello world program we want to install on the HPC infrastructure
+
+\examplecode{bash}{hello_world.cpp}
+
+Furthermore, suppose we manage the build process using CMake. This entails that we must create at least following CMakeLists.txt file
+
+\examplecode{bash}{CMakeLists.txt}
+
+The EasyBuild framework offers EasyBlocks that make it possible to resolve all needed dependencies (i.e. compilers, libraries, ...) on the cluster infrastructure. We can drive this EasyBuild framework by creating an EasyConfig file for our hello world program.
+
+\examplecode{bash}{hello_world.eb}
+
+In this EasyConfig file, we specify that we would like to use the Intel compilers and that a recent version of CMake has to be used. After installation, the EasyBuild framework should check that our hello world program has been compiled. Note that we also have to tarball the directory containing our cpp source and CMakeLists.txt
+
+\begin{prompt}
+tar -zcvf hello_world.tar.gz hello_world
+\end{prompt}
+
+To make sure that our software is available to other users in other VO, we set the install path
+
+\begin{prompt}
+export EASYBUILD_INSTALLPATH=$VSC_DATA_VO/easybuild
+\end{prompt}
+
+and build the code
+
+\begin{prompt}
+eb hello_world.eb
+\end{prompt}
+
+After a successful build, users can use the hello program, by adding the location of our module files
+
+\begin{prompt}
+module use $VSC_DATA_VO/easybuild/modules/all
+\end{prompt}
+
+and loading the hello module
+
+\begin{prompt}
+module load hello_world
+\end{prompt}
+
+
+  
+
+
+

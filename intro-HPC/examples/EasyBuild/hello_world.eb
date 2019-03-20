@@ -1,0 +1,18 @@
+
+name = 'hello_world'
+version = '0.0.1'
+homepage = 'https://hpc.ugent.be'
+description = "Hello World example for easybuild"
+
+toolchain = {'name': 'intel', 'version' : '2018a'}
+
+sources = ['hello_world.tar.gz']
+
+easyblock='CMakeMake'
+builddependencies = [('CMake', '3.10.3')]
+separate_build_dir = True
+
+configopts = '-DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc'
+
+sanity_check_paths = {'files' : ["bin/hello"],
+		      'dirs' : ["bin"],}
